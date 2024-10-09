@@ -3,19 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Web App Title</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>AI Test Page</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Your Web App</h1>
-    </header>
-    <main>
-        <p>This is the main content of your web app.</p>
-        <!-- Add more content here -->
-    </main>
-    <footer>
-        <p>© 2024 Your Name</p>
-    </footer>
+    <div class="container">
+        <h1>AI Test Page</h1>
+        <form id="ai-form">
+            <label for="input-text">Enter your query:</label>
+            <input type="text" id="input-text" name="input-text" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="response"></div>
+    </div>
+    <script>
+        const form = document.getElementById('ai-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputText = document.getElementById('input-text').value;
+            const responseDiv = document.getElementById('response');
+
+            // Send the request to the server
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: inputText }),
+            });
+
+            const data = await response.json();
+            responseDiv.innerHTML = `<p>Response: ${data.response}</p>`;
+        });
+    </script>
 </body>
 </html>
